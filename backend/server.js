@@ -3,15 +3,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const QRCode = require("qrcode");
+const Event = require("./models/Event");
+
 const app = express();
 
 // Middleware
 app.use(cors());
-app.options('*',cors());
 app.use(bodyParser.json());
-
-// MongoDB model
-const Event = require("./models/Event");
 
 // Connect to Mongodb
 mongoose.connect('mongodb+srv://kesarapusahasra34:h7LwlDbJsCiuGjZu@myproject-cluster.szkrfkq.mongodb.net/?retryWrites=true&w=majority&appName=myproject-cluster', {
@@ -31,7 +29,7 @@ app.post("/create", async (req, res) => {
     const event = new Event({ title, description, location, date, time, qrId });
     await event.save();
 
-    const dynamicURL = `https://dynamic-qr-backend.onrender.com/event/${qrId}`;
+    const dynamicURL = `http://192.168.31.13:3000/event/${qrId}`;
     const qrImage = await QRCode.toDataURL(dynamicURL);
 
     res.json({ qrId, qr: qrImage });
