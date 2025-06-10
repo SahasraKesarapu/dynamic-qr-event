@@ -29,7 +29,7 @@ app.post("/create", async (req, res) => {
     const event = new Event({ title, description, location, date, time, qrId });
     await event.save();
 
-    const dynamicURL = `http://192.168.31.13:3000/event/${qrId}`;
+    const dynamicURL = `https://dynamic-qr-backend.onrender.com/event/${qrId}`;
     const qrImage = await QRCode.toDataURL(dynamicURL);
 
     res.json({ qrId, qr: qrImage });
